@@ -52,10 +52,6 @@ export const siteConfig = {
       href: appRoutes.partners,
     },
     {
-      label: "Для бизнеса",
-      href: appRoutes.business,
-    },
-    {
       label: "Профиль",
       href: appRoutes.profile.main,
     },
