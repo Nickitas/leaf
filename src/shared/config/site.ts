@@ -1,69 +1,65 @@
 export type SiteConfig = typeof siteConfig;
+import { appRoutes } from "@/kernel/routes";
 
 export const siteConfig = {
-  name: "Next.js + HeroUI",
-  description: "Make beautiful websites regardless of your design experience.",
+  name: "Live",
+  description: "",
   navItems: [
     {
       label: "Главная",
-      href: "/",
+      href: appRoutes.home,
     },
     {
       label: "Как это работает",
-      href: "/how-it-works",
+      href: appRoutes.howItWorks,
     },
     {
       label: "Наши проекты",
-      href: "/our-progress",
+      href: appRoutes.projects.main,
     },
     {
-      label: "About",
-      href: "/about",
+      label: "О нас",
+      href: appRoutes.about,
     },
   ],
   navMenuItems: [
     {
       label: "Как это работает",
-      href: "/how-it-works",
+      href: appRoutes.howItWorks,
     },
     {
       label: "Наши проекты",
-      href: "/our-progress",
+      href: appRoutes.projects.main,
     },
     {
-      label: "About",
-      href: "/about",
+      label: "О Нас",
+      href: appRoutes.about,
     },
     {
-      label: "Profile",
-      href: "/profile",
+      label: "Доска рейтинга",
+      href: appRoutes.leaderboard,
     },
     {
-      label: "Dashboard",
-      href: "/dashboard",
+      label: "Рейтинг ESG",
+      href: appRoutes.esgRatings,
     },
     {
-      label: "Projects",
-      href: "/projects",
+      label: "События",
+      href: appRoutes.events,
     },
     {
-      label: "Team",
-      href: "/team",
+      label: "Партнеры",
+      href: appRoutes.partners,
     },
     {
-      label: "Help & Feedback",
-      href: "/help-feedback",
+      label: "Профиль",
+      href: appRoutes.profile.main,
     },
     {
-      label: "Logout",
+      label: "Выход",
       href: "/logout",
     },
   ],
   links: {
-    github: "https://github.com/heroui-inc/heroui",
-    twitter: "https://twitter.com/hero_ui",
-    docs: "https://heroui.com",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
   },
 };
