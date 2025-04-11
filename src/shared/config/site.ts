@@ -2,8 +2,8 @@ export type SiteConfig = typeof siteConfig;
 import { appRoutes } from "@/kernel/routes";
 
 export const siteConfig = {
-  name: "Live",
-  description: "",
+  name: "Life",
+  description: "Привлекаем широкую аудиторию к общим экологическим целям через доступные инструменты и прозрачность проектов",
   navItems: [
     {
       label: "Главная",
@@ -61,5 +61,6 @@ export const siteConfig = {
     },
   ],
   links: {
-  },
+    github: ''
+,  },
 };

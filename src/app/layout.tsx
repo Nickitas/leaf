@@ -1,4 +1,6 @@
 import "@/shared/styles/globals.css";
+
+import { ReactNode } from "react";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
@@ -7,6 +9,7 @@ import { Providers } from "./providers";
 import { siteConfig } from "@/shared/config/site";
 import { fontSans } from "@/shared/config/fonts";
 import { Navbar } from "@/widgets/navbar/ui/navbar";
+import { Footer } from "@/widgets/footer";
 
 export const metadata: Metadata = {
   title: {
@@ -29,7 +32,7 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <html suppressHydrationWarning lang="ru">
@@ -46,9 +49,7 @@ export default function RootLayout({
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               {children}
             </main>
-            <footer className="w-full flex items-center justify-center py-3">
-              Footer
-            </footer>
+            <Footer />
           </div>
         </Providers>
       </body>

@@ -1,0 +1,43 @@
+import { Project } from "../types/project.interface";
+
+export const projects: Project[] = [
+    {
+        id: '1',
+        title: 'Спасение реки Волги',
+        shortDescription: 'Очистка береговой линии и восстановление экосистемы реки Волга',
+        imageUrl: '/images/projects/river-cleanup.jpg',
+        goalFunding: 500000,
+        currentFunding: 275000,
+        category: 'ecology',
+        status: 'active',
+        creatorId: 'user1',
+        createdAt: new Date('2023-05-15'),
+        updatedAt: new Date('2023-10-20'),
+    },
+    {
+        id: '2',
+        title: 'Зеленые легкие города',
+        shortDescription: 'Посадка 10 000 деревьев в городских парках и скверах',
+        imageUrl: '/images/projects/tree-planting.jpg',
+        goalFunding: 300000,
+        currentFunding: 120500,
+        category: 'conservation',
+        status: 'active',
+        creatorId: 'user2',
+        createdAt: new Date('2023-06-10'),
+        updatedAt: new Date('2023-10-15'),
+    },
+    {
+        id: '3',
+        title: 'Переработка пластика',
+        shortDescription: 'Установка контейнеров для раздельного сбора пластика в каждом районе города',
+        imageUrl: '/images/projects/recycling-bins.jpg',
+        goalFunding: 750000,
+        currentFunding: 620000,
+        category: 'recycling',
+        status: 'active',
+        creatorId: 'user3',
+        createdAt: new Date('2023-04-01'),
+        updatedAt: new Date('2023-10-18'),
+    },
+];
