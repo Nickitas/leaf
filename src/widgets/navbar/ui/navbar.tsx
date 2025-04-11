@@ -19,9 +19,7 @@ import clsx from "clsx";
 import { siteConfig } from "@/shared/config/site";
 import { ThemeSwitch } from "@/widgets/theme-switch/ui/theme-switch";
 import {
-  TwitterIcon,
   GithubIcon,
-  DiscordIcon,
   HeartFilledIcon,
   SearchIcon,
   CheckIcon,
@@ -96,7 +94,7 @@ export const Navbar = () => {
             isExternal
             as={Link}
             className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.sponsor}
+            href={''}
             startContent={<HeartFilledIcon className="text-danger" />}
             variant="flat"
           >
