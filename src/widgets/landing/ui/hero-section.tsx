@@ -10,7 +10,7 @@ export const HeroSection = () => {
                     Объединяем усилия для <span className="text-green-600">зелёного</span> будущего
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto">
-                    Инновационная платформа для привлечения широкой аудитории к экологическим проектам через прозрачность и доступные инструменты
+                    Сообщество людей, которые верят, что даже маленькие шаги могут привести к большим изменениям.
                 </p>
                 <div className="flex gap-4 justify-center">
                     <Button size="lg" color='primary' as={Link} href={appRoutes.signIn}>

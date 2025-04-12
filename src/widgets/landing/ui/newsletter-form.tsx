@@ -38,7 +38,7 @@ export const NewsletterForm = () => {
         <motion.div
           whileHover={{ scale: 1.01 }}
           transition={{ type: 'spring', stiffness: 400 }}
-          className="flex flex-col sm:flex-row gap-3"
+          className="flex items-center flex-col sm:flex-row gap-3"
         >
           <div className="flex-1 relative">
             <Input
@@ -106,9 +106,9 @@ export const NewsletterForm = () => {
           </motion.div>
         </motion.div>
 
-        <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+        <p className="text-sm text-white dark:text-gray-400 text-center">
           Подписываясь, вы соглашаетесь с нашей{' '}
-          <a href="#" className="text-primary-600 dark:text-primary-400 hover:underline">
+          <a href="#" className="text-primary-400 dark:text-primary-400 hover:underline">
             Политикой конфиденциальности
           </a>
         </p>

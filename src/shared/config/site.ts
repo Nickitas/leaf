@@ -2,7 +2,7 @@ export type SiteConfig = typeof siteConfig;
 import { appRoutes } from "@/kernel/routes";
 
 export const siteConfig = {
-  name: "EcoLife",
+  name: "Leaf",
   description: "Привлекаем широкую аудиторию к общим экологическим целям через доступные инструменты и прозрачность проектов",
   navItems: [
     {
