@@ -1,5 +1,5 @@
+import React, { ReactNode } from "react";
 import { Base } from "@/views/profile/Base";
-import { ReactNode } from "react";
 
 export default function Layout({
   children,

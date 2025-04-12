@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-export const ProfileStats: FC = () => {
+export const MainStats: FC = () => {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">

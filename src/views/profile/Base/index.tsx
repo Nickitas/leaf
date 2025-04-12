@@ -9,7 +9,6 @@ export const Base: FC<BaseProps> = ({ children }) => {
     return (
         <>
             <ProfileAside />
-
             <ProfileContent>
                 {children}
             </ProfileContent>

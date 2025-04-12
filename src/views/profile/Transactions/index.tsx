@@ -1,6 +1,5 @@
 import React, { FC, } from "react";
-import { TransactionHead } from "@/widgets/profile/ui/transactions/ui/transaction-head";
-import { TransactionTabs } from "@/widgets/profile/ui/transactions/ui/transaction-tabs";
+import { TransactionHead, TransactionTabs } from "@/widgets/profile";
 
 
 export const Transactions: FC = () => {

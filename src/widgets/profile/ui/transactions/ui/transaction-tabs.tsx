@@ -1,29 +1,36 @@
-import React, { FC } from "react";
-import { Tabs, Tab } from "@heroui/tabs";
-import { transactions } from "../model/transactions";
-import { TransactionList } from "./transaction-list";
+"use client";
 
-export const TransactionTabs: FC = () => {
+import React, { useMemo } from "react";
+import { Tabs, Tab } from "@heroui/tabs";
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Transaction, transactions } from "../model/transactions";
+import { TransactionList } from "./transaction-list";
+import { tabsConfig } from "../config/transactions-tab";
+
+export const TransactionTabs = () => {
+
+    const filteredTransactions = useMemo(() => {
+        const cache: Record<string, Transaction[]> = {};
+        tabsConfig.forEach((tab) => {
+            cache[tab.key] = tab.filter
+                ? transactions.filter(tab.filter)
+                : [...transactions];
+        });
+        return cache;
+    }, [transactions]);
+
     return (
-        <Tabs aria-label="Options">
-            <Tab key="all" title="Все">
-                <TransactionList transactions={transactions} />
-            </Tab>
-            <Tab key="donations" title="Пожертвования">
-                <TransactionList
-                    transactions={transactions.filter((t) => t.type === "donation")}
-                />
-            </Tab>
-            <Tab key="bonuses" title="Бонусы">
-                <TransactionList
-                    transactions={transactions.filter((t) => t.type === "bonus")}
-                />
-            </Tab>
-            <Tab key="refunds" title="Возвраты">
-                <TransactionList
-                    transactions={transactions.filter((t) => t.type === "refund")}
-                />
-            </Tab>
+        <Tabs aria-label="Типы транзакций">
+            {tabsConfig.map((tab) => (
+                <Tab key={tab.key} title={tab.title}>
+                    <Card>
+                        <CardHeader>{tab.headerText}</CardHeader>
+                        <CardBody className="p-0">
+                            <TransactionList transactions={filteredTransactions[tab.key]} />
+                        </CardBody>
+                    </Card>
+                </Tab>
+            ))}
         </Tabs>
     );
 };
