@@ -8,8 +8,9 @@ interface LogoProps {
 
 export const Logo = ({ className }: LogoProps) => {
   return (
-    <Link href="/">
-      <Image src={"/logo.svg"} alt="" width={100} height={50} />
+    <Link href="/" className={clsx("flex items-center text-2xl font-bold", className)}>
+      <Image src={"/logo.svg"} alt="" width={30} height={20} />
+      Leaf
     </Link>
   );
 };

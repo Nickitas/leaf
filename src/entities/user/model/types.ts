@@ -1,5 +1,6 @@
 export interface IUser {
   id: string;
+  accessToken: string;
   name: string;
   email: string;
   bio: string;
