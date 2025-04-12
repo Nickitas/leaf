@@ -1,9 +1,7 @@
-import { title } from "@/widgets/primitives";
+import { Transactions } from "@/views/profile/Transactions";
 
-export default function Transactions() {
+export default function TransactionsPage() {
   return (
-    <article>
-      <h1 className={title()}>Транзакции</h1>
-    </article>
+    <Transactions />
   );
 }

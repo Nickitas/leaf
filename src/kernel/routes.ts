@@ -37,12 +37,15 @@ class AppRoutes extends Route {
     events = this.path('events');
     partners = this.path('partners');
     privacy = this.path('privacy');
+    terms = this.path('terms');
+
+    volunteer = this.path('volunteer');
     
     // Подкатегории
     profile = new ProfileRoutes(this.path('profile'));
     projects = new ProjectsRoutes(this.path('projects'));
    
-    investProject = (projectId: number) => this.path(`${projectId}`);
+    investProject = (projectId: number | string) => this.path(`${projectId}`);
 }
 
 export const appRoutes = new AppRoutes();

@@ -2,7 +2,7 @@ export type SiteConfig = typeof siteConfig;
 import { appRoutes } from "@/kernel/routes";
 
 export const siteConfig = {
-  name: "Life",
+  name: "EcoLife",
   description: "Привлекаем широкую аудиторию к общим экологическим целям через доступные инструменты и прозрачность проектов",
   navItems: [
     {
@@ -54,10 +54,6 @@ export const siteConfig = {
     {
       label: "Профиль",
       href: appRoutes.profile.main,
-    },
-    {
-      label: "Выход",
-      href: "/logout",
     },
   ],
   links: {

@@ -1,9 +1,7 @@
-import { title } from "@/widgets/primitives";
+import { Wallet } from "@/views/profile/Wallet";
 
-export default function Wallet() {
+export default function WalletPage() {
   return (
-    <article>
-      <h1 className={title()}>Кошелек</h1>
-    </article>
+    <Wallet />
   );
 }

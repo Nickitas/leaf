@@ -1,9 +1,8 @@
-import { title } from "@/widgets/primitives";
+import { Impact } from "@/views/profile/Impact";
 
-export default function Impact() {
+
+export default function ImpactPage() {
   return (
-    <article>
-      <h1 className={title()}>AR-визуализация</h1>
-    </article>
+    <Impact level={3} progress={10} />
   );
 }
