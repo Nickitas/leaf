@@ -65,7 +65,7 @@ export const Navbar = () => {
           <ThemeSwitch />
         </NavbarItem>
         <Chip color="success" startContent={<CheckIcon size={18} />} variant="faded">
-          Пул: 6 000 000 руб
+          Total invested: 6 000 000 руб
         </Chip>
         <NavbarItem className="hidden md:flex">
           <Button

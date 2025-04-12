@@ -5,7 +5,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
+import { appRoutes } from '@/kernel/routes';
+
 import { profileNav } from '../../config/profile-nav';
+import { Button } from '@heroui/button';
 
 
 export const ProfileMenu: FC = () => {
@@ -28,6 +31,11 @@ export const ProfileMenu: FC = () => {
                     <span className="font-medium">{item.name}</span>
                 </Link>
             ))}
+            <div className='w-[100%]'>
+                <Button color="primary" className="w-[100%]" as={Link} href={appRoutes.profile.createProject}>
+                    Создать проект
+                </Button>
+            </div>
         </nav>
     );
 };
