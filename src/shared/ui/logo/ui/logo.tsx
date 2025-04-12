@@ -1,5 +1,6 @@
-import clsx from 'clsx';
-import Link from 'next/link';
+import clsx from "clsx";
+import Image from "next/image";
+import Link from "next/link";
 
 interface LogoProps {
   className?: string;
@@ -7,8 +8,8 @@ interface LogoProps {
 
 export const Logo = ({ className }: LogoProps) => {
   return (
-    <Link href="/" className={clsx("text-2xl font-bold", className)}>
-      Eco<span className="text-green-500">Life</span>
+    <Link href="/">
+      <Image src={"/logo.svg"} alt="" width={100} height={50} />
     </Link>
   );
 };

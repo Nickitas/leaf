@@ -1,9 +1,7 @@
-import { title } from "@/widgets/primitives";
+import { HowItWorksPage } from "@/views/HowItWorksPage";
 
 export default function HowItWorks() {
-    return (
-      <article>
-        <h1 className={title()}>Как это работает?</h1>
-      </article>
-    );
-  }
+  return (
+      <HowItWorksPage />
+  );
+}
