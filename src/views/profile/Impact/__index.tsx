@@ -12,11 +12,6 @@ interface ARVisualizationProps {
     level: number;
     progress: number;
     className?: string;
-    ecoImpact?: {
-        treesSaved: number;
-        co2Reduced: number;
-        plasticReduced: number;
-    };
 }
 
 const EcoTreeModel = ({ level }: { level: number }) => {
@@ -24,6 +19,7 @@ const EcoTreeModel = ({ level }: { level: number }) => {
     const { scene } = useGLTF('/glb/eco-plant.glb');
     const [hovered, setHovered] = useState(false);
 
+    // Анимация роста и реакции на hover
     useFrame((state) => {
         if (group.current) {
             const growthFactor = 0.5 + (level / 10);
@@ -51,101 +47,75 @@ const EcoTreeModel = ({ level }: { level: number }) => {
     );
 };
 
-const LeafParticles = ({ level }: { level: number }) => {
-    const leaves = useRef<THREE.Group>(null);
-    const [leavesGeometry, setLeavesGeometry] = useState<THREE.BufferGeometry[]>([]);
-
-    // Количество листьев зависит от уровня (нелинейная прогрессия)
-    const calculateLeafCount = (level: number) => {
-        const baseCount = 10; // Минимальное количество
-        const multiplier = 3; // Множитель прогрессии
-        return baseCount + Math.pow(level, 1.5) * multiplier;
-    };
-
-    // Создаем геометрию листика (улучшенная форма)
-    const createLeafShape = (sizeVariation = 0) => {
-        const shape = new THREE.Shape();
-        const width = 0.5 + Math.random() * 0.3 * sizeVariation;
-        const height = 0.8 + Math.random() * 0.4 * sizeVariation;
-
-        shape.moveTo(0, 0);
-        shape.bezierCurveTo(width * 0.5, height * 0.3, width * 0.7, height * 0.7, 0, height);
-        shape.bezierCurveTo(-width * 0.7, height * 0.7, -width * 0.5, height * 0.3, 0, 0);
-
-        const extrudeSettings = {
-            steps: 1,
-            depth: 0.03 + Math.random() * 0.02,
-            bevelEnabled: false
-        };
-
-        return new THREE.ExtrudeGeometry(shape, extrudeSettings);
-    };
+const ParticleEffects = ({ count, level }: { count: number; level: number }) => {
+    const particles = useRef<THREE.Points>(null);
+    const particlesGeometry = useRef<THREE.BufferGeometry>(new THREE.BufferGeometry());
+    const particlesMaterial = useRef<THREE.PointsMaterial>(
+        new THREE.PointsMaterial({
+            size: 0.1,
+            color: new THREE.Color('#4ade80'),
+            transparent: true,
+            opacity: 0.8,
+            sizeAttenuation: true,
+        })
+    );
 
     useEffect(() => {
-        const leafCount = Math.floor(calculateLeafCount(level));
-        const geometries = [];
+        const particlesCnt = count * 100;
+        const posArray = new Float32Array(particlesCnt * 3);
+        const colorArray = new Float32Array(particlesCnt * 3);
+        const sizeArray = new Float32Array(particlesCnt);
 
-        // Создаем вариации листьев (3 разных типа)
-        for (let i = 0; i < leafCount; i++) {
-            const sizeVar = i % 3; // Вариации размера
-            geometries.push(createLeafShape(sizeVar * 0.5));
+        for (let i = 0; i < particlesCnt; i++) {
+            // Позиции
+            posArray[i * 3] = (Math.random() - 0.5) * 10;
+            posArray[i * 3 + 1] = Math.random() * 5;
+            posArray[i * 3 + 2] = (Math.random() - 0.5) * 10;
+
+            // Цвета (вариации зеленого)
+            colorArray[i * 3] = 0.2 + Math.random() * 0.3;
+            colorArray[i * 3 + 1] = 0.6 + Math.random() * 0.3;
+            colorArray[i * 3 + 2] = 0.3 + Math.random() * 0.2;
+
+            // Размеры
+            sizeArray[i] = 0.05 + Math.random() * 0.1;
         }
 
-        setLeavesGeometry(geometries);
-    }, [level]);
+        particlesGeometry.current.setAttribute(
+            'position',
+            new THREE.BufferAttribute(posArray, 3)
+        );
+        particlesGeometry.current.setAttribute(
+            'color',
+            new THREE.BufferAttribute(colorArray, 3)
+        );
+        particlesGeometry.current.setAttribute(
+            'size',
+            new THREE.BufferAttribute(sizeArray, 1)
+        );
 
+        particlesMaterial.current.vertexColors = true;
+    }, [count]);
+
+    // Анимация частиц
     useFrame((state) => {
-        if (leaves.current) {
+        if (particles.current) {
             const time = state.clock.getElapsedTime();
-            const windIntensity = 0.5 + Math.sin(time * 0.3) * 0.3;
+            particles.current.rotation.y = time * 0.1;
 
-            leaves.current.children.forEach((leaf, idx) => {
-                // Позиция зависит от уровня (чем выше уровень - шире распределение)
-                const levelFactor = 1 + level * 0.1;
-                const angle = (idx / leaves.current!.children.length) * Math.PI * 2;
-                const radius = 1.5 * levelFactor + Math.sin(time * 0.2 + idx * 0.05) * 0.5;
-
-                // Базовые координаты
-                leaf.position.x = Math.cos(time * 0.15 + angle) * radius;
-                leaf.position.y = 1 + Math.sin(time * 0.25 + angle * 1.3) * (1 + level * 0.2);
-                leaf.position.z = Math.sin(time * 0.15 + angle) * radius;
-
-                // Вращение с эффектом ветра
-                leaf.rotation.x = Math.sin(time * 0.5 + idx) * 0.5 * windIntensity;
-                leaf.rotation.y = Math.cos(time * 0.3 + idx) * 0.5 * windIntensity;
-                leaf.rotation.z = Math.sin(time * 0.4 + idx) * 0.5 * windIntensity;
-
-                // Размер листьев (немного варьируется)
-                const size = 0.15 + Math.sin(time * 2 + idx) * 0.02;
-                leaf.scale.set(size, size, size);
-
-                // Периодическое "подпрыгивание" листьев
-                if (idx % 7 === Math.floor(time * 2) % 7) {
-                    leaf.position.y += Math.sin(time * 5) * 0.1;
-                }
-            });
+            const positions = particlesGeometry.current.attributes.position.array as Float32Array;
+            for (let i = 1; i < positions.length; i += 3) {
+                positions[i] += Math.sin(time + i) * 0.01;
+            }
+            particlesGeometry.current.attributes.position.needsUpdate = true;
         }
     });
 
     return (
-        <group ref={leaves}>
-            {leavesGeometry.map((geo, idx) => (
-                <mesh key={idx} geometry={geo}>
-                    <meshStandardMaterial
-                        color={new THREE.Color(
-                            0.2 + Math.random() * 0.3, // R
-                            0.5 + Math.random() * 0.4, // G
-                            0.2 + Math.random() * 0.2  // B
-                        )}
-                        side={THREE.DoubleSide}
-                        transparent
-                        opacity={0.7 + Math.random() * 0.2}
-                        roughness={0.5}
-                        metalness={0.1}
-                    />
-                </mesh>
-            ))}
-        </group>
+        <points ref={particles}>
+            <bufferGeometry attach="geometry" ref={particlesGeometry} />
+            <pointsMaterial attach="material" ref={particlesMaterial} />
+        </points>
     );
 };
 
@@ -196,7 +166,7 @@ const LevelEffects = ({ level }: { level: number }) => {
     );
 };
 
-const ARVisualization = ({ level, progress, ecoImpact }: ARVisualizationProps) => {
+const ARVisualization = ({ level, progress }: ARVisualizationProps) => {
     const [arSupported, setArSupported] = useState(false);
     const [mode, setMode] = useState<'view' | 'ar'>('view');
     const controlsRef = useRef<any>(null);
@@ -246,20 +216,15 @@ const ARVisualization = ({ level, progress, ecoImpact }: ARVisualizationProps) =
             />
 
             <EcoTreeModel level={level} />
-            <LeafParticles level={level} />
+            <ParticleEffects count={level} level={level} />
             <LevelEffects level={level} />
 
             {mode === 'view' && !gl.xr.isPresenting && (
-                <Html
-                    position={[-20, 2, -30]}
-                    transform
-                    wrapperClass="html-bottom-wrapper"
-                    center
-                >
+                <Html center>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-6 rounded-xl shadow-lg w-[50vw]"
+                        className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-6 rounded-xl shadow-lg max-w-xs"
                     >
                         <h3 className="text-lg font-bold mb-2">Ваш эко-уровень: {level}</h3>
                         <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
@@ -268,20 +233,6 @@ const ARVisualization = ({ level, progress, ecoImpact }: ARVisualizationProps) =
                                 style={{ width: `${progress}%` }}
                             />
                         </div>
-
-                        {ecoImpact && (
-                            <div className="mb-4 space-y-2">
-                                <p className="text-sm">
-                                    <span className="font-semibold">🌳 Спасено деревьев:</span> {ecoImpact.treesSaved}
-                                </p>
-                                <p className="text-sm">
-                                    <span className="font-semibold">☁️ Сокращено CO₂:</span> {ecoImpact.co2Reduced} кг
-                                </p>
-                                <p className="text-sm">
-                                    <span className="font-semibold">🧴 Утилизировано пластика:</span> {ecoImpact.plasticReduced} кг
-                                </p>
-                            </div>
-                        )}
 
                         {arSupported ? (
                             <Button
@@ -314,7 +265,7 @@ const ARVisualization = ({ level, progress, ecoImpact }: ARVisualizationProps) =
     );
 };
 
-export const Impact: FC<ARVisualizationProps> = ({ level, progress, className, ecoImpact }) => {
+export const Impact: FC<ARVisualizationProps> = ({ level, progress, className }) => {
     const [loaded, setLoaded] = useState(false);
 
     return (
@@ -330,11 +281,7 @@ export const Impact: FC<ARVisualizationProps> = ({ level, progress, className, e
                 gl={{ antialias: true, alpha: true }}
                 onCreated={() => setLoaded(true)}
             >
-                <ARVisualization
-                    level={level}
-                    progress={progress}
-                    ecoImpact={ecoImpact}
-                />
+                <ARVisualization level={level} progress={progress} />
             </Canvas>
 
             <div className="absolute top-4 left-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm flex items-center gap-2">
