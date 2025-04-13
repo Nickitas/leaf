@@ -16,6 +16,7 @@ class ProfileRoutes extends Route {
     transactions = this.path('transactions');
     badges = this.path('badges');
     impact = this.path('impact'); // AR-визуализация
+    createProject = this.path('create-project');
 }
 
 class ProjectsRoutes extends Route {
