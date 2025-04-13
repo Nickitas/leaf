@@ -1,3 +1,4 @@
+import { ITransaction } from "@/entities/transaction";
 import { TransactionTab } from "../model/transaction-tab";
 
 export const tabsConfig: TransactionTab[] = [

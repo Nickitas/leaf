@@ -1,15 +1,15 @@
 "use client";
 
-import { useGetTransactions } from "@/entities/transaction";
 import React, { FC } from "react";
-// import { Transaction } from "../model/transactions";
 
-// interface TransactionListProps {
-//     transactions: Transaction[];
-// }
+import { ITransaction } from "@/entities/transaction/model";
 
-export const TransactionList: FC = () => {
-  const { transactions } = useGetTransactions();
+interface TransactionListProps {
+  transactions: ITransaction[];
+}
+
+
+export const TransactionList: FC<TransactionListProps> = ({ transactions }) => {
   
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
