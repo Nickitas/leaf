@@ -1,17 +1,32 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import Link from 'next/link';
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 
-import { appRoutes } from '@/kernel/routes';
-import type { Project } from '../model/types/project.interface';
+import { appRoutes } from "@/kernel/routes";
+import type { Project } from "../model/types/project.interface";
+import { IProjectResponse } from "@/entities/project";
 
 type ProjectCardProps = {
-  project: Project;
+  project: IProjectResponse;
 };
 
 export const ProjectCard = ({ project }: ProjectCardProps) => {
+  if (!project) {
+    return;
+  }
+   // Проверка обязательных полей
+   if (
+    typeof project.currentFunding === "undefined" ||
+    typeof project.goalFunding === "undefined" ||
+    typeof project.endDate === "undefined" ||
+    typeof project.type === "undefined" ||
+    typeof project.description === "undefined" ||
+    typeof project.title === "undefined"
+  ) {
+    return <div>Упс, пусто</div>;
+  }
   const progressPercentage = Math.round(
     (project.currentFunding / project.goalFunding) * 100
   );
@@ -19,19 +34,19 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <motion.div
       whileHover={{ y: -5 }}
-      transition={{ type: 'spring', stiffness: 300 }}
+      transition={{ type: "spring", stiffness: 300 }}
       className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700"
     >
       <div className="relative h-48 overflow-hidden">
         <Image
-          src={project.imageUrl}
+          src={"/jungles.png"}
           alt={project.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <span className="absolute top-3 right-3 px-3 py-1 text-xs font-medium rounded-full bg-primary-500 text-white">
-          {project.category}
+          {project.type}
         </span>
       </div>
 
@@ -47,7 +62,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
           <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
             <span>Собрано: {progressPercentage}%</span>
             <span>
-              {project.currentFunding.toLocaleString()} из{' '}
+              {project.currentFunding.toLocaleString()} из{" "}
               {project.goalFunding.toLocaleString()} ₽
             </span>
           </div>
@@ -55,7 +70,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progressPercentage}%` }}
-              transition={{ duration: 1, ease: 'easeOut' }}
+              transition={{ duration: 1, ease: "easeOut" }}
               className="bg-gradient-to-r from-primary-400 to-primary-600 h-2.5 rounded-full"
             />
           </div>
@@ -76,7 +91,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            Осталось {project.daysLeft} дней
+            Осталось 5 дней
           </span>
           <span className="flex items-center">
             <svg
@@ -92,7 +107,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
                 d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
-            {project.donorsCount} поддержали
+            4 поддержали
           </span>
         </div>
 
@@ -101,9 +116,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
           whileTap={{ scale: 0.98 }}
           className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white py-3 rounded-lg font-medium hover:shadow-md transition-all"
         >
-            <Link href={appRoutes.projects.main}>
-                Поддержать проект
-            </Link>
+          <Link href={appRoutes.projects.projectId(project.id)}>Подробнее</Link>
         </motion.button>
       </div>
     </motion.div>

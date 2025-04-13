@@ -35,7 +35,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
                 });
                 setTimeout(() => {
                     router.push(appRoutes.profile.main);
-                }, 1000);
+                }, 500);
 
                 set({ accessToken: response.accessToken, isLoggedIn: true });
 

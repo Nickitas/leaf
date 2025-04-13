@@ -7,9 +7,5 @@ interface PageProps {
 }
 
 export default function ProjectIdPage({ params }: PageProps) {
-  return (
-    <ProjectId params={{
-      id: params.id 
-    }} />
-  );
+  return <ProjectId id={params.id} />;
 }

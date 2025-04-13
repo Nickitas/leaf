@@ -29,7 +29,7 @@ export const MainAvatar: FC<MainAvatarProps> = (isEditing) => {
     <div className="flex flex-col items-center">
       <Avatar
         showFallback
-        name="Jane"
+        // name="Jane"
         src={avatar}
         className="h-32 w-32 mb-4 relative group"
       >
