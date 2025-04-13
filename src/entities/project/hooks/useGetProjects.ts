@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { IProjectRequest, IProjectResponse } from "../model";
-import { getProjectById, getProjects } from "../api";
+import { IProjectResponse } from "../model";
+import { getProjects } from "../api";
 
 export const useGetPosts = () => {
   const [projects, setProjects] = useState<IProjectResponse[]>([]);

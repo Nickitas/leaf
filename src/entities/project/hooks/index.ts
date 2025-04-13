@@ -1,2 +1,2 @@
-export * from "./useGetProjects"
-export * from "./useGetProjectById"
+export * from "./useGetProjects";
+export * from "./useGetProjectById";
