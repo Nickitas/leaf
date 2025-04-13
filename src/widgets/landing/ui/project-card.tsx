@@ -101,7 +101,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
           whileTap={{ scale: 0.98 }}
           className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white py-3 rounded-lg font-medium hover:shadow-md transition-all"
         >
-            <Link href={appRoutes.investProject(project.id)}>
+            <Link href={appRoutes.projects.main}>
                 Поддержать проект
             </Link>
         </motion.button>
