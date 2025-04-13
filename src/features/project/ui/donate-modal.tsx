@@ -6,11 +6,21 @@ import { Input } from '@heroui/input';
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/modal';
 import { useDonateModal } from '@/features/project/model/use-donate-modal';
 import { useCreateTransaction } from '@/entities/transaction/hooks/use-create-transaction';
+import { useRouter } from 'next/navigation';
 
-export const DonateModal = ({ projectId, variant = 'default' }: { projectId: string; variant?: 'full' | 'default' }) => {
+export const DonateModal = ({ 
+  projectId, 
+  variant = 'default',
+  refetchProjects
+}: { 
+  projectId: string; 
+  variant?: 'full' | 'default';
+  refetchProjects?: () => Promise<void>; 
+}) => {
     const { isOpen, onOpenChange, amount, setAmount, isLoading, error, setLoading, setError } = useDonateModal();
     const [localAmount, setLocalAmount] = useState(amount.toString());
-    const { createTransaction } = useCreateTransaction(); // Добавляем вызов хука здесь
+    const { createTransaction } = useCreateTransaction();
+    const router = useRouter(); 
 
     useEffect(() => {
         setLocalAmount(amount.toString());
@@ -31,6 +41,12 @@ export const DonateModal = ({ projectId, variant = 'default' }: { projectId: str
                     projectId,
                     type: 'donation'
                 });
+                
+                if (refetchProjects) {
+                    await refetchProjects();
+                }
+                
+                router.refresh();
                 
                 onOpenChange(false);
             } catch (err) {

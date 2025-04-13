@@ -131,7 +131,11 @@ export function ProjectId({ id }: { id: string }) {
                 </div> */}
               </div>
 
-              <DonateModal projectId={project.id} variant="full" />
+                <DonateModal 
+                  projectId={project.id} 
+                  variant="full" 
+                  // refetchProjects={fetchProjects}
+                />
             </CardBody>
           </Card>
 
