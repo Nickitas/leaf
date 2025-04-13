@@ -33,6 +33,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 
   useEffect(() => {
     checkAuth();
+    
     fetchUser();
   }, [checkAuth, fetchUser]);
 
