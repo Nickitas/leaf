@@ -18,7 +18,6 @@ export function ProjectId({ id }: { id: string }) {
     return;
   }
 
-  // Проверка обязательных полей
   if (
     typeof project.currentFunding === "undefined" ||
     typeof project.goalFunding === "undefined" ||

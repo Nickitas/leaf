@@ -1,10 +1,17 @@
-import { Button } from "@heroui/button";
-import React, { FC } from "react";
-import { walletList } from "../model/mock/wallets-list";
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+"use client";
 
+import React, { FC, useState } from "react";
+import { Button } from "@heroui/button";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { useGetTransactions } from "@/entities/transaction";
 
 export const WalletLastTransactions: FC = () => {
+    const { transactions } = useGetTransactions();
+    const [visibleCount, setVisibleCount] = useState<number>(4);
+
+    const loadMore = () => {
+        setVisibleCount(prev => prev + 4);
+    };
 
     return (
         <Card>
@@ -18,32 +25,52 @@ export const WalletLastTransactions: FC = () => {
             </CardHeader>
             <CardBody className="p-0">
                 <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {walletList.transactions.map((transaction) => (
-                        <div key={transaction.id} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="font-medium">{transaction.description}</p>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                                        {new Date(transaction.date).toLocaleDateString('ru-RU')}
-                                    </p>
-                                </div>
-                                <p
-                                    className={`font-medium ${transaction.type === 'deposit' || transaction.type === 'bonus'
-                                        ? 'text-green-600 dark:text-green-400'
-                                        : 'text-red-600 dark:text-red-400'
-                                        }`}
-                                >
-                                    {transaction.type === 'deposit' || transaction.type === 'bonus' ? '+' : '-'}
-                                    {Math.abs(transaction.amount)} ₽
-                                </p>
-                            </div>
+                    {transactions?.length === 0 ? (
+                        <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+                            Нет транзакций
                         </div>
-                    ))}
+                    ) : (
+                        transactions
+                            ?.slice(0, visibleCount)
+                            .map((transaction) => (
+                                <div 
+                                    key={transaction.id} 
+                                    className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <p className="font-medium">
+                                                {transaction.project?.title || "Без названия"}
+                                            </p>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                {transaction.updatedAt 
+                                                    ? new Date(transaction.updatedAt).toLocaleDateString('ru-RU') 
+                                                    : 'Нет даты'}
+                                            </p>
+                                        </div>
+                                        <p
+                                            className={`font-medium ${
+                                                transaction.type === 'refill' || transaction.type === 'bonus'
+                                                    ? 'text-green-600 dark:text-green-400'
+                                                    : 'text-red-600 dark:text-red-400'
+                                            }`}
+                                        >
+                                            {transaction.type === 'donation' || transaction.type === 'bonus' ? '+' : '-'}
+                                            {Math.abs(transaction.amount)} ₽
+                                        </p>
+                                    </div>
+                                </div>
+                            ))
+                    )}
                 </div>
             </CardBody>
-            <CardFooter className="justify-center">
-                <Button variant="ghost">Показать еще</Button>
-            </CardFooter>
+            {transactions && transactions.length > visibleCount && (
+                <CardFooter className="justify-center">
+                    <Button variant="ghost" onPress={loadMore}>
+                        Показать еще
+                    </Button>
+                </CardFooter>
+            )}
         </Card>
-    )
-}
+    );
+};
