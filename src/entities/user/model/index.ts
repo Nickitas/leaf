@@ -7,7 +7,10 @@ export interface IUser {
   joinDate: string;
   level: number;
   levelProgress: number;
-  co2Economy: number;
+  balance: number,
+  co2Reduced: number;
+  plasticReduced: number,
+  treesSaved: number,
   rating: number;
   badges: string[];
   totalTransactionsSum: {

@@ -8,9 +8,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input } from "@heroui/input";
 
-import { user } from "@/entities/user/model/mock/user";
+// import { user } from "@/entities/user/model/mock/user";
 import { Chip } from "@heroui/chip";
 import { MainAvatar, MainHead, MainLevel, MainStats } from "@/widgets/profile";
+import { useGetUser } from "@/entities/user";
 
 
 const profileSchema = z.object({
@@ -25,6 +26,8 @@ export const Main: FC = () => {
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
+    const {user, isLoading, isError} = useGetUser()
+
     const {
         register,
         handleSubmit,
@@ -33,9 +36,9 @@ export const Main: FC = () => {
     } = useForm<ProfileFormData>({
         resolver: zodResolver(profileSchema),
         defaultValues: {
-            name: user.name,
-            email: user.email,
-            bio: user.bio,
+            name: user?.name,
+            email: user?.email,
+            bio: user?.bio,
         },
     });
 
@@ -110,14 +113,14 @@ export const Main: FC = () => {
                                 <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
                                     Email
                                 </h3>
-                                <p className="mt-1">{user.email}</p>
+                                <p className="mt-1">{user?.email}</p>
                             </div>
 
                             <div>
                                 <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
                                     О себе
                                 </h3>
-                                <p className="mt-1 whitespace-pre-line">{user.bio}</p>
+                                <p className="mt-1 whitespace-pre-line">{user?.bio}</p>
                             </div>
                         </div>
                     )}
@@ -126,7 +129,7 @@ export const Main: FC = () => {
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold mb-3">Мои бейджи</h3>
                         <div className="flex flex-wrap gap-2">
-                            {user.badges.map((badge) => (
+                            {user?.badges.map((badge) => (
                                 <Chip
                                     key={badge}
                                     color="success"
