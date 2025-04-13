@@ -45,8 +45,6 @@ class AppRoutes extends Route {
     // Подкатегории
     profile = new ProfileRoutes(this.path('profile'));
     projects = new ProjectsRoutes(this.path('projects'));
-   
-    investProject = (projectId: number | string) => this.path(`${projectId}`);
 }
 
 export const appRoutes = new AppRoutes();

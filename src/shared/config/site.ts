@@ -47,12 +47,8 @@ export const siteConfig = {
       label: "Партнеры",
       href: appRoutes.partners,
     },
-    {
-      label: "Профиль",
-      href: appRoutes.profile.main,
-    },
   ],
   links: {
-    github: ''
+    github: 'https://github.com/Nickitas/leaf'
 ,  },
 };
