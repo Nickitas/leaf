@@ -6,11 +6,7 @@ export const siteConfig = {
   description: "Привлекаем широкую аудиторию к общим экологическим целям через доступные инструменты и прозрачность проектов",
   navItems: [
     {
-      label: "Главная",
-      href: appRoutes.home,
-    },
-    {
-      label: "Как это работает",
+      label: "Как это работает?",
       href: appRoutes.howItWorks,
     },
     {
@@ -24,7 +20,7 @@ export const siteConfig = {
   ],
   navMenuItems: [
     {
-      label: "Как это работает",
+      label: "Как это работает?",
       href: appRoutes.howItWorks,
     },
     {

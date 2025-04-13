@@ -1,5 +1,11 @@
 "use client";
 
+import NextLink from "next/link";
+import { useRouter } from "next/navigation";
+import clsx from "clsx";
+
+import { appRoutes } from "@/kernel/routes";
+
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -13,8 +19,9 @@ import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
 import { Chip } from "@heroui/chip";
 import { link as linkStyles } from "@heroui/theme";
-import NextLink from "next/link";
-import clsx from "clsx";
+import { User } from "lucide-react";
+
+import { useAuthStore } from "@/entities/auth/store/auth.store";
 
 import { siteConfig } from "@/shared/config/site";
 import { Logo } from "@/shared/ui/logo";
@@ -23,10 +30,12 @@ import {
   GithubIcon,
   CheckIcon,
 } from "@/shared/ui/icons/ui/icons";
-import { appRoutes } from "@/kernel/routes";
 
 
 export const Navbar = () => {
+
+  const router = useRouter();
+  const { isLoggedIn, logout } = useAuthStore();
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
@@ -67,25 +76,39 @@ export const Navbar = () => {
         <Chip color="success" startContent={<CheckIcon size={18} />} variant="faded">
           Total invested: 6 000 000 руб
         </Chip>
-        <NavbarItem className="hidden md:flex">
-          <Button
-            as={Link}
-            href={appRoutes.signIn}
-            color='primary'
-          >
-            Войти
-          </Button>
-        </NavbarItem>
-        <NavbarItem className="hidden md:flex">
-          <Button
-            as={Link}
-            href={appRoutes.signUp}
-            variant="bordered"
-            color='primary'
-          >
-            Регистрация
-          </Button>
-        </NavbarItem>
+        {isLoggedIn ? (
+          <>
+            <Button
+              as={Link}
+              href={appRoutes.profile.main}
+              color='primary'
+            >
+              <User />
+            </Button>
+          </>
+        ) : (
+          <>
+            <NavbarItem className="hidden md:flex">
+              <Button
+                as={Link}
+                href={appRoutes.signIn}
+                color='primary'
+              >
+                Войти
+              </Button>
+            </NavbarItem>
+            <NavbarItem className="hidden md:flex">
+              <Button
+                as={Link}
+                href={appRoutes.signUp}
+                variant="bordered"
+                color='primary'
+              >
+                Регистрация
+              </Button>
+            </NavbarItem>
+          </>
+        )}
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
@@ -112,7 +135,18 @@ export const Navbar = () => {
               </Link>
             </NavbarMenuItem>
           ))}
-          <NavbarItem className="md:flex">
+          {isLoggedIn ? (
+            <>
+              <Button
+                color='danger'
+                onPress={() => logout(router)}
+              >
+                Выйти
+            </Button>
+            </>
+          ) : (
+            <>
+            <NavbarItem className="md:flex">
             <Button
               as={Link}
               href={appRoutes.signIn}
@@ -131,6 +165,8 @@ export const Navbar = () => {
               Регистрация
             </Button>
           </NavbarItem>
+            </>
+        )}
         </div>
       </NavbarMenu>
     </HeroUINavbar>

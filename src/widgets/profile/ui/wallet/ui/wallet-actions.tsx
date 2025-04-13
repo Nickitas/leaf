@@ -1,5 +1,9 @@
 import React, { FC } from "react";
+import Link from "next/link";
+
 import { Button } from "@heroui/button";
+
+import { appRoutes } from "@/kernel/routes";
 
 export const WalletActions: FC = () => {
     return (
@@ -10,7 +14,7 @@ export const WalletActions: FC = () => {
                     <p>Привязать карту</p>
                 </div>
             </Button>
-            <Button variant="solid" size="lg" className="h-24">
+            <Button variant="solid" size="lg" className="h-24" as={Link} href={appRoutes.profile.transactions}>
                 <div className="text-center">
                     <p className="text-lg">🔄</p>
                     <p>История операций</p>
