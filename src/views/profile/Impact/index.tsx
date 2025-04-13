@@ -6,20 +6,18 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, Html, OrbitControls } from '@react-three/drei';
 import { motion } from 'framer-motion';
 import { Button } from '@heroui/button';
-import GLTFLoader from 'three-gltf-loader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useGetUser } from '@/entities/user';
 
-interface ARVisualizationProps {
+interface User {
     level: number;
-    progress: number;
-    className?: string;
-    ecoImpact?: {
-        treesSaved: number;
-        co2Reduced: number;
-        plasticReduced: number;
-    };
+    levelProgress: number;
+    treesSaved: number;
+    co2Reduced: number;
+    plasticReduced: number;
 }
 
-const EcoTreeModel = ({ level }: { level: number }) => {
+const EcoTreeModel = ({ level = 1 }: { level?: number }) => {
     const group = useRef<THREE.Group>(null);
     const { scene } = useGLTF('/glb/eco-plant.glb');
     const [hovered, setHovered] = useState(false);
@@ -51,18 +49,16 @@ const EcoTreeModel = ({ level }: { level: number }) => {
     );
 };
 
-const LeafParticles = ({ level }: { level: number }) => {
+const LeafParticles = ({ level = 1 }: { level?: number }) => {
     const leaves = useRef<THREE.Group>(null);
     const [leavesGeometry, setLeavesGeometry] = useState<THREE.BufferGeometry[]>([]);
 
-    // Количество листьев зависит от уровня (нелинейная прогрессия)
     const calculateLeafCount = (level: number) => {
-        const baseCount = 10; // Минимальное количество
-        const multiplier = 3; // Множитель прогрессии
+        const baseCount = 10;
+        const multiplier = 3;
         return baseCount + Math.pow(level, 1.5) * multiplier;
     };
 
-    // Создаем геометрию листика (улучшенная форма)
     const createLeafShape = (sizeVariation = 0) => {
         const shape = new THREE.Shape();
         const width = 0.5 + Math.random() * 0.3 * sizeVariation;
@@ -85,9 +81,8 @@ const LeafParticles = ({ level }: { level: number }) => {
         const leafCount = Math.floor(calculateLeafCount(level));
         const geometries = [];
 
-        // Создаем вариации листьев (3 разных типа)
         for (let i = 0; i < leafCount; i++) {
-            const sizeVar = i % 3; // Вариации размера
+            const sizeVar = i % 3;
             geometries.push(createLeafShape(sizeVar * 0.5));
         }
 
@@ -100,26 +95,21 @@ const LeafParticles = ({ level }: { level: number }) => {
             const windIntensity = 0.5 + Math.sin(time * 0.3) * 0.3;
 
             leaves.current.children.forEach((leaf, idx) => {
-                // Позиция зависит от уровня (чем выше уровень - шире распределение)
                 const levelFactor = 1 + level * 0.1;
                 const angle = (idx / leaves.current!.children.length) * Math.PI * 2;
                 const radius = 1.5 * levelFactor + Math.sin(time * 0.2 + idx * 0.05) * 0.5;
 
-                // Базовые координаты
                 leaf.position.x = Math.cos(time * 0.15 + angle) * radius;
                 leaf.position.y = 1 + Math.sin(time * 0.25 + angle * 1.3) * (1 + level * 0.2);
                 leaf.position.z = Math.sin(time * 0.15 + angle) * radius;
 
-                // Вращение с эффектом ветра
                 leaf.rotation.x = Math.sin(time * 0.5 + idx) * 0.5 * windIntensity;
                 leaf.rotation.y = Math.cos(time * 0.3 + idx) * 0.5 * windIntensity;
                 leaf.rotation.z = Math.sin(time * 0.4 + idx) * 0.5 * windIntensity;
 
-                // Размер листьев (немного варьируется)
                 const size = 0.15 + Math.sin(time * 2 + idx) * 0.02;
                 leaf.scale.set(size, size, size);
 
-                // Периодическое "подпрыгивание" листьев
                 if (idx % 7 === Math.floor(time * 2) % 7) {
                     leaf.position.y += Math.sin(time * 5) * 0.1;
                 }
@@ -133,9 +123,9 @@ const LeafParticles = ({ level }: { level: number }) => {
                 <mesh key={idx} geometry={geo}>
                     <meshStandardMaterial
                         color={new THREE.Color(
-                            0.2 + Math.random() * 0.3, // R
-                            0.5 + Math.random() * 0.4, // G
-                            0.2 + Math.random() * 0.2  // B
+                            0.2 + Math.random() * 0.3,
+                            0.5 + Math.random() * 0.4,
+                            0.2 + Math.random() * 0.2
                         )}
                         side={THREE.DoubleSide}
                         transparent
@@ -149,7 +139,8 @@ const LeafParticles = ({ level }: { level: number }) => {
     );
 };
 
-const LevelEffects = ({ level }: { level: number }) => {
+
+const LevelEffects = ({ level = 1 }: { level?: number }) => {
     const effects = useRef<THREE.Group>(null);
     const [models, setModels] = useState<THREE.Object3D[]>([]);
 
@@ -196,7 +187,17 @@ const LevelEffects = ({ level }: { level: number }) => {
     );
 };
 
-const ARVisualization = ({ level, progress, ecoImpact }: ARVisualizationProps) => {
+interface ARVisualizationProps {
+    level?: number;
+    progress?: number;
+    ecoImpact?: {
+        treesSaved: number;
+        co2Reduced: number;
+        plasticReduced: number;
+    };
+}
+
+const ARVisualization = ({ level = 1, progress = 0, ecoImpact }: ARVisualizationProps) => {
     const [arSupported, setArSupported] = useState(false);
     const [mode, setMode] = useState<'view' | 'ar'>('view');
     const controlsRef = useRef<any>(null);
@@ -215,7 +216,7 @@ const ARVisualization = ({ level, progress, ecoImpact }: ARVisualizationProps) =
         };
 
         checkARSupport();
-        camera.position.set(0, 1.5, 3 + level * 0.2);
+        camera.position.set(0, 1.5, 3 + (level || 1) * 0.2);
     }, [camera, level]);
 
     const startArSession = async () => {
@@ -234,10 +235,10 @@ const ARVisualization = ({ level, progress, ecoImpact }: ARVisualizationProps) =
 
     return (
         <>
-            <ambientLight intensity={0.5 + level * 0.05} />
+            <ambientLight intensity={0.5 + (level || 1) * 0.05} />
             <directionalLight
                 position={[10, 10, 20]}
-                intensity={1 + level * 0.1}
+                intensity={1 + (level || 1) * 0.1}
                 color={level > 5 ? '#fff8e1' : '#ffffff'}
             />
             <hemisphereLight
@@ -307,15 +308,26 @@ const ARVisualization = ({ level, progress, ecoImpact }: ARVisualizationProps) =
                     minDistance={3}
                     maxDistance={10}
                     autoRotate={level > 3}
-                    autoRotateSpeed={0.5 + level * 0.1}
+                    autoRotateSpeed={0.5 + (level || 1) * 0.1}
                 />
             )}
         </>
     );
 };
 
-export const Impact: FC<ARVisualizationProps> = ({ level, progress, className, ecoImpact }) => {
+interface ImpactProps {
+    className?: string;
+}
+
+export const Impact: FC<ImpactProps> = ({ className }) => {
+    const { user } = useGetUser();
     const [loaded, setLoaded] = useState(false);
+
+    const ecoImpact = user ? {
+        treesSaved: user.treesSaved || 0,
+        co2Reduced: user.co2Reduced || 0,
+        plasticReduced: user.plasticReduced || 0,
+    } : undefined;
 
     return (
         <div className={`relative h-[400px] md:h-[600px] bg-gradient-to-b from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 rounded-xl overflow-hidden ${className}`}>
@@ -331,16 +343,18 @@ export const Impact: FC<ARVisualizationProps> = ({ level, progress, className, e
                 onCreated={() => setLoaded(true)}
             >
                 <ARVisualization
-                    level={level}
-                    progress={progress}
+                    level={user?.level}
+                    progress={user?.levelProgress}
                     ecoImpact={ecoImpact}
                 />
             </Canvas>
 
-            <div className="absolute top-4 left-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span>🌱 Уровень {level}</span>
-            </div>
+            {user && (
+                <div className="absolute top-4 left-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    <span>🌱 Уровень {user.level}</span>
+                </div>
+            )}
 
             <div className="absolute bottom-4 right-4 text-xs text-gray-500">
                 Вращайте модель пальцем/мышью

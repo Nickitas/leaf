@@ -6,6 +6,7 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Transaction, transactions } from "../model/transactions";
 import { TransactionList } from "./transaction-list";
 import { tabsConfig } from "../config/transactions-tab";
+import { ITransaction } from "@/entities/transaction/model";
 
 export const TransactionTabs = () => {
 
