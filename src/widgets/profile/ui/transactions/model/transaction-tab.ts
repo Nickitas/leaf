@@ -1,8 +1,8 @@
-import { Transaction } from "./transactions";
+import { ITransaction } from "@/entities/transaction";
 
 export type TransactionTab = {
     key: string;
     title: string;
-    filter?: (t: Transaction) => boolean;
+    filter?: (t: ITransaction) => boolean;
     headerText: string;
 };

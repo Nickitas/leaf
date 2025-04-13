@@ -5,7 +5,7 @@ export interface ITransaction {
     title: string;
   };
   amount: number;
-  type: "refill" | "donation";
+  type: "refill" | "donation" | 'bonus';
   updatedAt?: string;
   status?: "completed"
 }
