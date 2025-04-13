@@ -1,6 +1,11 @@
+"use client"
+
+import { useGetUser } from "@/entities/user";
 import React, { FC } from "react";
 
 export const ProfileCard: FC = () => {
+      const { user } = useGetUser();
+    
     return (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
             <div className="flex items-center gap-3">
@@ -9,10 +14,10 @@ export const ProfileCard: FC = () => {
                 </div>
                 <div>
                     <h3 className="font-medium text-gray-900 dark:text-white">
-                        Иван Иванов
+                        {user?.name}
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Участник с 2023
+                        Участник с {user?.joinDate || new Date().toISOString().split("-")[0]}
                     </p>
                 </div>
             </div>
@@ -22,7 +27,7 @@ export const ProfileCard: FC = () => {
                         Баланс
                     </span>
                     <span className="font-medium text-gray-900 dark:text-white">
-                        1,245 ₽
+                        {user?.balance} ₽
                     </span>
                 </div>
             </div>
