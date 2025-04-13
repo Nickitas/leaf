@@ -5,6 +5,7 @@ import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { EcoProgress } from "@/shared/ui/progress/EcoProgress";
 import { DonateModal } from "@/features/project/ui/donate-modal";
 import { useGetProjectById } from "@/entities/project";
+import Image from "next/image";
 
 export function ProjectId({ id }: { id: string }) {
   const { project, isLoading } = useGetProjectById(id);
@@ -46,9 +47,7 @@ export function ProjectId({ id }: { id: string }) {
           <Card>
             <CardBody>
               <div className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mb-6">
-                <span className="text-gray-500 dark:text-gray-400">
-                  Изображение проекта
-                </span>
+                  <Image src={"/jungles.png"} alt={""} width={800} height={700}/>
               </div>
 
               <h2 className="text-xl font-bold mb-4">О проекте</h2>

@@ -81,4 +81,5 @@ export interface IProjectResponse extends IProjectRequest {
   createdAt: string;
   updatedAt: string;
   esg?: IESGScoreResponse;
+  donators: number;
 }
