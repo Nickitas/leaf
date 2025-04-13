@@ -1,7 +1,6 @@
 "use client";
 
 import React, { FC } from "react";
-// import { walletList } from "../model/mock/wallets-list";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { EcoProgress } from "@/shared/ui/progress/EcoProgress";
@@ -12,9 +11,9 @@ import { useGetUser } from "@/entities/user";
 export const WalletBalanceCard: FC = () => {
     const {user} = useGetUser()
 
-    if(!user)
-        return
-    const progress = (user.balance / 5000) * 100;
+    const goal = 5_000_000;
+
+    const progress = user ? (user?.balance / goal) * 100 : 0;
 
     const { isOpen, onOpen } = useWalletTransactions();
 
@@ -27,9 +26,9 @@ export const WalletBalanceCard: FC = () => {
                 <CardBody>
                     <div className="flex items-end justify-between">
                         <div>
-                            <p className="text-4xl font-bold">{user.balance} ₽</p>
+                            <p className="text-4xl font-bold">{user?.balance} ₽</p>
                             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                Цель: 5000 ₽
+                                Цель: {goal} ₽
                             </p>
                         </div>
                         <Button color="primary" variant="solid" size="lg" onPress={onOpen}>
