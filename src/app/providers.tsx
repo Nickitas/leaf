@@ -6,7 +6,10 @@ import * as React from "react";
 import { HeroUIProvider } from "@heroui/system";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import {ToastProvider} from "@heroui/toast";
+import { ToastProvider } from "@heroui/toast";
+import { useUserStore } from "@/entities/user/store/user-store";
+import { useEffect } from "react";
+import { useAuthStore } from "@/entities/auth/store/auth.store";
 
 
 export interface ProvidersProps {
@@ -24,6 +27,14 @@ declare module "@react-types/shared" {
 
 export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
+
+  const { checkAuth } = useAuthStore();
+  const { fetchUser } = useUserStore();
+
+  useEffect(() => {
+    checkAuth();
+    fetchUser();
+  }, [checkAuth, fetchUser]);
 
   return (
     <HeroUIProvider navigate={router.push}>
