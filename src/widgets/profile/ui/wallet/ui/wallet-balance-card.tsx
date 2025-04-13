@@ -9,8 +9,7 @@ import { useWalletTransactions } from "../model/store/use-wallet-refill-modal-st
 import { useGetUser } from "@/entities/user";
 
 export const WalletBalanceCard: FC = () => {
-
-    const { user } = useGetUser();
+    const {user} = useGetUser()
 
     const goal = 5_000_000;
 
