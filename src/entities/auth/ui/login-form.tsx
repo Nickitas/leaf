@@ -11,12 +11,10 @@ import { Checkbox } from "@heroui/checkbox";
 
 import { AuthError, LoginFormData } from "../model";
 import { appRoutes } from "@/kernel/routes";
-import { addToast } from "@heroui/toast";
-import { signIn } from "../api";
-import { setCookie } from "cookies-next";
+import { useAuthStore } from "../store/auth.store";
 
 export const LoginForm = () => {
-  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -24,18 +22,12 @@ export const LoginForm = () => {
     setError,
   } = useForm<LoginFormData>();
 
+  const router = useRouter();
+  const { login } = useAuthStore();
+
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const response = await signIn(data);
-      if (!response.accessToken) {
-        return;
-      } else {
-        setCookie("accessToken", response.accessToken);
-        addToast({
-          title: "Успешно",
-        });
-        setTimeout(() => router.push("/profile"), 2000);
-      }
+      await login(data, router);
     } catch (error) {
       setError("root", {
         type: "manual",
@@ -76,7 +68,7 @@ export const LoginForm = () => {
               })}
             />
             {errors.email && (
-              <p className="mt-1 text-sm text-red-500 dark:text-red-400">
+              <p className="w-[275px] mt-1 text-sm text-red-500 dark:text-red-400">
                 {errors.email.message}
               </p>
             )}
@@ -104,7 +96,7 @@ export const LoginForm = () => {
               })}
             />
             {errors.password && (
-              <p className="mt-1 text-sm text-red-500 dark:text-red-400">
+              <p className="w-[275px] mt-1 text-sm text-red-500 dark:text-red-400">
                 {errors.password.message}
               </p>
             )}
@@ -133,7 +125,7 @@ export const LoginForm = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-sm text-red-500 dark:text-red-400 text-center"
+            className="w-[275px] text-sm text-red-500 dark:text-red-400 text-center"
           >
             {errors.root.message}
           </motion.div>

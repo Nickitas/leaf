@@ -44,7 +44,7 @@ export const TransactionList: FC<TransactionListProps> = ({ transactions }) => {
                                     : "text-primary-600 dark:text-primary-400"
                                     }`}
                             >
-                                {transaction.type === "refund" ? "+" : "-"}
+                                {transaction.type === "refund" ? "-" : "+"}
                                 {Math.abs(transaction.amount)} ₽
                             </p>
                         </div>

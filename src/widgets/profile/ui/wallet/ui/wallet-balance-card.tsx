@@ -6,7 +6,7 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { EcoProgress } from "@/shared/ui/progress/EcoProgress";
 import { WalletRefillModal } from "./wallet-refill-modal";
-import { useWalletTransactions } from "../model/store/wallet-refill-modal-store";
+import { useWalletTransactions } from "../model/store/use-wallet-refill-modal-store";
 
 export const WalletBalanceCard: FC = () => {
 

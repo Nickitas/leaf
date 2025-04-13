@@ -46,7 +46,7 @@ export const transactions: Transaction[] = [
         project: "Возврат средств",
         date: "2023-09-20T11:20:00Z",
         amount: 300,
-        type: "refund",
+        type: "refill",
         status: "completed",
     },
 ];

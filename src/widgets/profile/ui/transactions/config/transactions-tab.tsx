@@ -13,15 +13,15 @@ export const tabsConfig: TransactionTab[] = [
         headerText: "Список пожертвований",
     },
     {
+        key: "refill",
+        title: "Зачисления",
+        filter: (t) => t.type === "refill",
+        headerText: "Список зачислений",
+    },
+    {
         key: "bonuses",
         title: "Бонусы",
         filter: (t) => t.type === "bonus",
         headerText: "Список бонусных начислений",
-    },
-    {
-        key: "refunds",
-        title: "Возвраты",
-        filter: (t) => t.type === "refund",
-        headerText: "Список возвратов",
     },
 ];

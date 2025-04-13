@@ -10,7 +10,7 @@ import {
     Button,
     Input,
 } from "@heroui/react";
-import { useWalletTransactions } from "../model/store/wallet-refill-modal-store";
+import { useWalletTransactions } from "../model/store/use-wallet-refill-modal-store";
 
 export const WalletRefillModal: FC = () => {
     const { isOpen, onClose, onOpenChange } = useWalletTransactions();

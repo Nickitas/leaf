@@ -28,6 +28,7 @@ export const MainHead: FC<MainHeadProps> = ({
                     </Button>
                     <Button
                         variant="solid"
+                        color="success"
                         onPress={submit}
                     >
                         Сохранить

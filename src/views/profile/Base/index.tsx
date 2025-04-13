@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FC, ReactNode } from "react";
 import { ProfileAside, ProfileContent } from "@/widgets/profile";
 
@@ -6,6 +8,7 @@ interface BaseProps {
 }
 
 export const Base: FC<BaseProps> = ({ children }) => {
+
     return (
         <>
             <ProfileAside />
