@@ -1,5 +1,6 @@
 import apiInstance from "@/shared/api/instance";
 import { IUser } from "../model";
+import { useUserStore } from "../store/user-store";
 
 /**
  * Получение ползователя.
@@ -11,6 +12,8 @@ export const getUser = async (): Promise<{ user: IUser }> => {
       method: "GET",
       url: "/user/profile",
     });
+
+    useUserStore.getState().setUser(response.user);
 
     return response;
   } catch (error) {

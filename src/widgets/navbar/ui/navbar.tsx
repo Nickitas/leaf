@@ -28,11 +28,14 @@ import { Logo } from "@/shared/ui/logo";
 import { ThemeSwitch } from "@/widgets/theme-switch/ui/theme-switch";
 import { GithubIcon, CheckIcon } from "@/shared/ui/icons/ui/icons";
 import { useGetTotalInvested } from "@/entities/transaction";
+import { useGetUser } from "@/entities/user";
 
 export const Navbar = () => {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuthStore();
   const { totalInvested } = useGetTotalInvested();
+
+  const { user, isLoading } = useGetUser();
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
@@ -77,7 +80,7 @@ export const Navbar = () => {
         >
           Фонд: {totalInvested} руб
         </Chip>
-        {isLoggedIn ? (
+        {user ? (
           <>
             <Button as={Link} href={appRoutes.profile.main} color="primary">
               <User />
@@ -125,7 +128,7 @@ export const Navbar = () => {
               </Link>
             </NavbarMenuItem>
           ))}
-          {isLoggedIn ? (
+          {user ? (
             <>
               <Button color="danger" onPress={() => logout(router)}>
                 Выйти

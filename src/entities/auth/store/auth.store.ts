@@ -5,6 +5,7 @@ import { signIn } from '../api';
 import { addToast } from '@heroui/toast';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { appRoutes } from '@/kernel/routes';
+import { useUserStore } from '@/entities/user/store/user-store';
 
 type AuthStore = {
     accessToken: string | null;
@@ -55,6 +56,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     logout: async (router: AppRouterInstance) => {
         deleteCookie('accessToken');
         router.push(appRoutes.signIn);
+        useUserStore.getState().clearUser(); 
         set({ accessToken: null, isLoggedIn: false });
     },
 }));

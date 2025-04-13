@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { apiInstance } from '@/shared/api/instance';
 import { useRouter } from 'next/navigation';
+import { useGetUser } from '@/entities/user';
 
 interface CreateTransactionParams {
     amount: number;
@@ -12,6 +13,7 @@ export const useCreateTransaction = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
+    const { refetch } = useGetUser();
 
     const createTransaction = async ({ amount, projectId, type }: CreateTransactionParams) => {
         setIsLoading(true);
@@ -24,7 +26,9 @@ export const useCreateTransaction = () => {
                 data: { amount, projectId, type }
             });
 
+            await refetch(); 
             router.refresh();
+            
             return response;
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
