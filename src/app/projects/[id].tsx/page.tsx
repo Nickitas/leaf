@@ -1,8 +1,15 @@
-// import { ProjectId } from "@/views/ProjectId";
+import { ProjectId } from "@/views/Projects/ProjectId";
 
-export default function ProjectIdPage() {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function ProjectIdPage({ params }: PageProps) {
   return (
-    // <ProjectId />
-    'ProjectsPageId'
+    <ProjectId params={{
+      id: params.id 
+    }} />
   );
 }

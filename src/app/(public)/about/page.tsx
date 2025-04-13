@@ -1,9 +1,7 @@
-import { title } from "@/widgets/primitives";
+import { About } from "@/views/About";
 
 export default function AboutPage() {
   return (
-    <article>
-      <h1 className={title()}>About</h1>
-    </article>
+    <About />
   );
 }

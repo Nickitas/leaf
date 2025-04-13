@@ -5,7 +5,7 @@ import cls from "./index.module.scss";
 
 export const HowItWorksPage = () => {
   return (
-    <div >
+    <div className="space-y-6">
       {/* Баннер с контентом */}
       <div className={cls.banner}> </div>
 

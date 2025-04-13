@@ -21,7 +21,7 @@ class ProfileRoutes extends Route {
 
 class ProjectsRoutes extends Route {
     main = this.path('');
-    projectId = (id: string | number) => this.path(`${id}`);
+    projectId = (id: string) => this.path(`/${id}`);
 }
 
 class AppRoutes extends Route {

@@ -1,8 +1,7 @@
-// import { Projects } from "@/views/Projects";
+import { Projects } from "@/views/Projects";
 
 export default function ProjectsPage() {
   return (
-    // <Projects />
-    'ProjectsPage'
+    <Projects />
   );
 }
