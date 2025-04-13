@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { IProjectResponse } from "../model";
 import { getProjects } from "../api";
 
-export const useGetPosts = () => {
+export const useGetProjects = () => {
   const [projects, setProjects] = useState<IProjectResponse[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);

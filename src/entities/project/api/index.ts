@@ -36,8 +36,7 @@ export const getProjects = async (
   try {
     const response = await apiInstance<{ list: IProjectResponse[] }>({
       method: "GET",
-      url: "/projects/create",
-      params: { limit, offset },
+      url: `/projects?limit=${limit}&offset=${offset}`,
     });
     return response;
   } catch (error) {
