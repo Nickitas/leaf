@@ -26,16 +26,13 @@ import { useAuthStore } from "@/entities/auth/store/auth.store";
 import { siteConfig } from "@/shared/config/site";
 import { Logo } from "@/shared/ui/logo";
 import { ThemeSwitch } from "@/widgets/theme-switch/ui/theme-switch";
-import {
-  GithubIcon,
-  CheckIcon,
-} from "@/shared/ui/icons/ui/icons";
-
+import { GithubIcon, CheckIcon } from "@/shared/ui/icons/ui/icons";
+import { useGetTotalInvested } from "@/entities/transaction";
 
 export const Navbar = () => {
-
   const router = useRouter();
   const { isLoggedIn, logout } = useAuthStore();
+  const { totalInvested } = useGetTotalInvested();
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
@@ -51,7 +48,7 @@ export const Navbar = () => {
               <NextLink
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
+                  "data-[active=true]:text-primary data-[active=true]:font-medium"
                 )}
                 color="foreground"
                 href={item.href}
@@ -73,27 +70,23 @@ export const Navbar = () => {
           </Link>
           <ThemeSwitch />
         </NavbarItem>
-        <Chip color="success" startContent={<CheckIcon size={18} />} variant="faded">
-          Total invested: 6 000 000 руб
+        <Chip
+          color="success"
+          startContent={<CheckIcon size={18} />}
+          variant="faded"
+        >
+          Фонд: {totalInvested} руб
         </Chip>
         {isLoggedIn ? (
           <>
-            <Button
-              as={Link}
-              href={appRoutes.profile.main}
-              color='primary'
-            >
+            <Button as={Link} href={appRoutes.profile.main} color="primary">
               <User />
             </Button>
           </>
         ) : (
           <>
             <NavbarItem className="hidden md:flex">
-              <Button
-                as={Link}
-                href={appRoutes.signIn}
-                color='primary'
-              >
+              <Button as={Link} href={appRoutes.signIn} color="primary">
                 Войти
               </Button>
             </NavbarItem>
@@ -102,7 +95,7 @@ export const Navbar = () => {
                 as={Link}
                 href={appRoutes.signUp}
                 variant="bordered"
-                color='primary'
+                color="primary"
               >
                 Регистрация
               </Button>
@@ -124,10 +117,7 @@ export const Navbar = () => {
           {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
-                color={
-                  index === 2
-                    ? "primary" : "foreground"
-                }
+                color={index === 2 ? "primary" : "foreground"}
                 href="#"
                 size="lg"
               >
@@ -137,36 +127,29 @@ export const Navbar = () => {
           ))}
           {isLoggedIn ? (
             <>
-              <Button
-                color='danger'
-                onPress={() => logout(router)}
-              >
+              <Button color="danger" onPress={() => logout(router)}>
                 Выйти
-            </Button>
+              </Button>
             </>
           ) : (
             <>
-            <NavbarItem className="md:flex">
-            <Button
-              as={Link}
-              href={appRoutes.signIn}
-              color='primary'
-            >
-              Войти
-            </Button>
-          </NavbarItem>
-          <NavbarItem className="md:flex">
-            <Button
-              as={Link}
-              href={appRoutes.signUp}
-              variant="bordered"
-              color='primary'
-            >
-              Регистрация
-            </Button>
-          </NavbarItem>
+              <NavbarItem className="md:flex">
+                <Button as={Link} href={appRoutes.signIn} color="primary">
+                  Войти
+                </Button>
+              </NavbarItem>
+              <NavbarItem className="md:flex">
+                <Button
+                  as={Link}
+                  href={appRoutes.signUp}
+                  variant="bordered"
+                  color="primary"
+                >
+                  Регистрация
+                </Button>
+              </NavbarItem>
             </>
-        )}
+          )}
         </div>
       </NavbarMenu>
     </HeroUINavbar>
