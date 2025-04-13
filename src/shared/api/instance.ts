@@ -5,7 +5,6 @@ type ApiInstanceParams = {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   params?: URLSearchParams | Record<string, any> | string[][] | string;
-  // signal: AbortSignal;
   data?: BodyType<unknown>;
   headers?: Record<string, any>;
 };
@@ -24,7 +23,7 @@ export const apiInstance = async <T>({
       method,
       headers: {
         "Content-Type": "application/json",
-        Authorization: token ?? "",
+        Authorization: `Bearer ${token ?? ""}`,
         ...headers,
       },
       ...(data ? { body: JSON.stringify(data) } : {}),

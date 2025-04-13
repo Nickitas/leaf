@@ -1,0 +1,99 @@
+.button {
+  position: relative;
+  padding: 0 30px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #16a34a;
+  cursor: pointer;
+  border: 2px solid #16a34a;
+  border-radius: 14px;
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2));
+
+  &:hover {
+    animation: wind 1s ease-in-out infinite;
+  }
+}
+
+@keyframes wind {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.icon1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  transform-origin: 0 0;
+  transform: rotate(10deg);
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
+  animation: slay1 4s cubic-bezier(0.52, 0, 0.58, 1) infinite;
+
+  .button:hover & {
+    animation: slay1 2s cubic-bezier(0.52, 0, 0.58, 1) infinite;
+  }
+}
+
+.icon2 {
+  position: absolute;
+  top: 0;
+  left: 25px;
+  width: 12px;
+  transform-origin: 50% 0;
+  transform: rotate(10deg);
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+  animation: slay2 5s cubic-bezier(0.52, 0, 0.58, 1) infinite;
+
+  .button:hover & {
+    animation: slay2 2.5s cubic-bezier(0.52, 0, 0.58, 1) infinite;
+  }
+}
+
+.icon3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 18px;
+  transform-origin: 50% 0;
+  transform: rotate(-5deg);
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+  animation: slay3 6s cubic-bezier(0.52, 0, 0.58, 1) infinite;
+
+  .button:hover & {
+    animation: slay3 3s cubic-bezier(0.52, 0, 0.58, 1) infinite;
+  }
+}
+
+@keyframes slay1 {
+  0%, 100% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes slay2 {
+  0%, 100% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+@keyframes slay3 {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
